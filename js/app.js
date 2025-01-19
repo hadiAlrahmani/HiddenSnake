@@ -1,5 +1,6 @@
 const logoReturnToMainMenuEl =  document.querySelector('#navGameIcon');
 // console.log(logoReturnToMainMenuEl);
+const snakeBoard = document.querySelector('#game-board');
 
 logoReturnToMainMenuEl.addEventListener('click', () => {
     // console.log('Button was clicked!')
@@ -13,6 +14,21 @@ textReturnToMainMenuEl.addEventListener('click', () => {
     // console.log('Button was clicked!')
     location.href = "./index.html"
 })
+
+
+// salman helped me with that!
+let createDiv = ()=> {
+    for (i=0; i < 360; i++) {
+        const div = document.createElement("div")
+        div.classList.add('cell')
+        div.classList.add('cell-'+i)
+        snakeBoard.append(div)
+        console.log(div)
+    }
+}
+createDiv()
+
+
 
 
 
