@@ -6,7 +6,7 @@
 body {
     background-color: #3C3D37;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .playBtn {
@@ -208,6 +208,14 @@ margin-top: 150px;
     background-color: #48ff00;
     max-width: 150px;
     margin-top: 20px;
+}
+
+.theSnake {
+  background-color: #697565;
+  width: 25px;
+  height: 25px;
+  /* border: ; 
+  make it round.  */
 }
 
 /*! <!-- CODE GRAVEYARD --> 
