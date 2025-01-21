@@ -28,18 +28,23 @@ let createDiv = () => {
 };
 createDiv();
 
-const cell183El = document.querySelector('.cell-183');
+let snakeBody = [];
+// console.log(snakeBody);
 
+const cell183El = document.querySelector('.cell-183');
 // creating the snake on the board
 const createSnake = document.createElement("div");
 // give the snake a (class="theSnake")
 createSnake.classList.add('theSnake');
 // put the snake inside the cell-183 div
+snakeBody.push(createSnake);
 cell183El.append(createSnake);
+// console.log(snakeBody);
 
 let celNum = 183; // current snake position
 let currentDirection; // snake current direction
 let movementInterval;
+let score = 0;
 
 const blinkingTestEl = document.querySelector('.blinkText');
 
@@ -67,7 +72,7 @@ document.addEventListener('keydown', (e) => {
     // snake will move if a key is pressed
     clearInterval(movementInterval);
     
-    // will clear the unknown movement interval to set it fresh.
+    // will clear the old unknown movement interval to set it fresh.
     movementInterval = setInterval(() => {
         // const currentCell = document.querySelector(`.cell-${celNum}`);
         document.querySelector(`.cell-${celNum}`);
@@ -82,24 +87,27 @@ document.addEventListener('keydown', (e) => {
         } else if (currentDirection === "right") {
             celNum += 1;
         } 
-
-        // let gridWidth = 20;
+        
         let totalCells = 360
 
         // Check if the snake is outside the (top & bottom) grid boundaries (dead)
         if (celNum < 0 || celNum >= 360) {
-        clearInterval(movementInterval);
-        alert("Game Over! You hit the wall!");
-        // randomize the snakes repawn point.
-        celNum = Math.floor(Math.random() * totalCells);
-        return;
-    }
+            clearInterval(movementInterval);
+            alert("Game Over! You hit the wall!");
+            score = 0;
+            scoreNum.innerHTML = score;
+            // randomize the snakes repawn point.
+            celNum = Math.floor(Math.random() * totalCells);
+            return;
+        }
     
     // Check if the snake is outside the (right) grid boundaries (dead)
     if (currentDirection === "right") {
-        if (celNum == 0 || celNum == 20 || celNum == 40 || celNum == 60 || celNum == 80 || celNum == 100 || celNum == 120 || celNum == 140 || celNum == 160 || celNum == 180 || celNum == 200 || celNum == 220 || celNum == 240 || celNum == 260 || celNum == 280 || celNum == 300 || celNum == 320 || celNum == 340 || celNum == 360) {
+        if (celNum === 0 || celNum === 20 || celNum === 40 || celNum === 60 || celNum === 80 || celNum === 100 || celNum === 120 || celNum === 140 || celNum === 160 || celNum === 180 || celNum === 200 || celNum === 220 || celNum === 240 || celNum === 260 || celNum === 280 || celNum === 300 || celNum === 320 || celNum === 340 || celNum === 360) {
             clearInterval(movementInterval);
             alert("Game Over! You hit the wall!");
+            score = 0;
+            scoreNum.innerHTML = score;
             celNum = Math.floor(Math.random() * totalCells);
             return;
         }
@@ -108,26 +116,55 @@ document.addEventListener('keydown', (e) => {
     // Check if the snake is outside the (left) grid boundaries (dead)
     if (currentDirection === "left") {
         if (
-            celNum == 19 || celNum == 39 || celNum == 59 || celNum == 79 || 
-            celNum == 99 || celNum == 119 || celNum == 139 || celNum == 159 || 
-            celNum == 179 || celNum == 199 || celNum == 219 || celNum == 239 || 
-            celNum == 259 || celNum == 279 || celNum == 299 || celNum == 319 || 
-            celNum == 339 || celNum == 359 || celNum == 360
+            celNum === 19 || celNum === 39 || celNum === 59 || celNum === 79 || 
+            celNum === 99 || celNum === 119 || celNum === 139 || celNum === 159 || 
+            celNum === 179 || celNum === 199 || celNum === 219 || celNum === 239 || 
+            celNum === 259 || celNum === 279 || celNum === 299 || celNum === 319 || 
+            celNum === 339 || celNum === 359 || celNum === 360
         ) {
             clearInterval(movementInterval);
             alert("Game Over! You hit the wall!");
+            score = 0;
+            scoreNum.innerHTML = score;
             celNum = Math.floor(Math.random() * totalCells);
             return;
         }
     }
-
-
         const newCell = document.querySelector(`.cell-${celNum}`);
         // newCell.appendChild(createSnake);
         newCell.append(createSnake);
-    }, 50); 
+
+        if (celNum === foodNum) {
+            // console.log('num', num++)
+            // console.log('Hadi')
+            document.querySelector(`.cell-${foodNum}`);
+            food.remove()
+            foodNum = Math.floor(Math.random() * totalCells);
+            const newCell = document.querySelector(`.cell-${foodNum}`);
+            newCell.append(food);
+            score++;
+            scoreNum.innerHTML = score;
+
+            const createSnakeSegment = document.createElement("div");
+            createSnakeSegment.classList.add('theSnake');
+            document.querySelector(`.cell-${celNum}`).append(createSnake);
+            console.log(snakeBody);
+        }
+    }, 75); 
 });
 
+const cell253El = document.querySelector('.cell-253');
+let foodNum = 253;
+let scoreNum = document.querySelector('#score');
+
+const food = document.createElement("div");
+        food.classList.add('snakeFood');
+        // console.log(food);
+        cell253El.append(food);
+
+
+// snake current cell -1
+  
  
 // ! <!-- CODE GRAVEYARD --> 
 
@@ -232,3 +269,10 @@ document.addEventListener('keydown', (e) => {
 //         createSnake.append(div)
 //     } 
 // }
+
+//////////////////////////
+
+//code to creating stuff from js to HTML - creating a div example
+// const div = document.createElement("div");
+//         div.classList.add('cell');
+

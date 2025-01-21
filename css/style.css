@@ -198,32 +198,39 @@ margin-top: 150px;
     flex-wrap: wrap; 
     width: 540px;
     /* height: 486px;  */
-    background-color: black; 
+    background-color: whitesmoke; 
   }
   
   .cell {
+    display: flex;
     width: 25px;
     height: 25px;
-    background-color: #e0e0e0; 
+    background-color: #181C14; 
     margin: 1px;
   }
-  #highScore {
+
+  /* #highScore {
     background-color: #7a00ff;
     max-width: 150px;
     margin-top: 20px;
-}
-#score {
+} */
+
+.scoreContainer {
     background-color: #48ff00;
     max-width: 150px;
     margin-top: 20px;
 }
 
+/* #score {
+  background-color: chocolate;
+} */
+
 .theSnake {
-  background-color: #697565;
+  background-color: darkgreen;
   width: 25px;
   height: 25px;
-  /* border: ; 
-  make it round.  */
+  border: 12px dotted #697565;
+  border-radius: 12px;
 }
 
 @keyframes blink {
@@ -252,7 +259,16 @@ margin-top: 150px;
   text-shadow: 0 2px 4px rgba(0,0,0,0.4);
  }
 
+.snakeFood {
+  display: flex;
+  background-color: #ff0000;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #ECDFCC;
+  border-radius: 10px;
+ }
 
+ 
  
 /*! <!-- CODE GRAVEYARD --> 
 
