@@ -41,22 +41,36 @@ let celNum = 183; // current snake position
 let currentDirection; // snake current direction
 let movementInterval;
 
+const blinkingTestEl = document.querySelector('.blinkText');
+
 document.addEventListener('keydown', (e) => {
+// Check if the key pressed is the same as the current direction
+    if (
+        (e.key === "ArrowUp" && currentDirection === "up") ||
+        (e.key === "ArrowDown" && currentDirection === "down") ||
+        (e.key === "ArrowLeft" && currentDirection === "left") ||
+        (e.key === "ArrowRight" && currentDirection === "right")
+    ) {
+        // Exit the function if the same key is pressed
+        return;
+    }
+
     if (e.key === "ArrowUp") {
-        currentDirection = "up";
+        currentDirection = "up", blinkingTestEl.remove();
     } else if (e.key === "ArrowDown") {
-        currentDirection = "down";
+        currentDirection = "down", blinkingTestEl.remove();
     } else if (e.key === "ArrowLeft") {
-        currentDirection = "left";
+        currentDirection = "left", blinkingTestEl.remove();
     } else if (e.key === "ArrowRight") {
-        currentDirection = "right"; 
+        currentDirection = "right", blinkingTestEl.remove(); 
     } 
     // snake will move if a key is pressed
     clearInterval(movementInterval);
     
     // will clear the unknown movement interval to set it fresh.
     movementInterval = setInterval(() => {
-        const currentCell = document.querySelector(`.cell-${celNum}`);
+        // const currentCell = document.querySelector(`.cell-${celNum}`);
+        document.querySelector(`.cell-${celNum}`);
         // currentCell.removeChild(createSnake);
         createSnake.remove();
         if (currentDirection === "up") {
@@ -67,16 +81,54 @@ document.addEventListener('keydown', (e) => {
             celNum -= 1;
         } else if (currentDirection === "right") {
             celNum += 1;
+        } 
+
+        // let gridWidth = 20;
+        let totalCells = 360
+
+        // Check if the snake is outside the (top & bottom) grid boundaries (dead)
+        if (celNum < 0 || celNum >= 360) {
+        clearInterval(movementInterval);
+        alert("Game Over! You hit the wall!");
+        // randomize the snakes repawn point.
+        celNum = Math.floor(Math.random() * totalCells);
+        return;
+    }
+    
+    // Check if the snake is outside the (right) grid boundaries (dead)
+    if (currentDirection === "right") {
+        if (celNum == 0 || celNum == 20 || celNum == 40 || celNum == 60 || celNum == 80 || celNum == 100 || celNum == 120 || celNum == 140 || celNum == 160 || celNum == 180 || celNum == 200 || celNum == 220 || celNum == 240 || celNum == 260 || celNum == 280 || celNum == 300 || celNum == 320 || celNum == 340 || celNum == 360) {
+            clearInterval(movementInterval);
+            alert("Game Over! You hit the wall!");
+            celNum = Math.floor(Math.random() * totalCells);
+            return;
         }
+    }
+
+    // Check if the snake is outside the (left) grid boundaries (dead)
+    if (currentDirection === "left") {
+        if (
+            celNum == 19 || celNum == 39 || celNum == 59 || celNum == 79 || 
+            celNum == 99 || celNum == 119 || celNum == 139 || celNum == 159 || 
+            celNum == 179 || celNum == 199 || celNum == 219 || celNum == 239 || 
+            celNum == 259 || celNum == 279 || celNum == 299 || celNum == 319 || 
+            celNum == 339 || celNum == 359 || celNum == 360
+        ) {
+            clearInterval(movementInterval);
+            alert("Game Over! You hit the wall!");
+            celNum = Math.floor(Math.random() * totalCells);
+            return;
+        }
+    }
+
+
         const newCell = document.querySelector(`.cell-${celNum}`);
         // newCell.appendChild(createSnake);
         newCell.append(createSnake);
-    }, 50);
-
-    
+    }, 50); 
 });
 
-
+ 
 // ! <!-- CODE GRAVEYARD --> 
 
 // console.log('Its working!');

@@ -6,8 +6,16 @@
 body {
     background-color: #3C3D37;
     height: 100%;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
+
+/* #main {
+  background-color: #00ffd5;
+  background-image: url('../Game-Background/stars.gif');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+} */
 
 .playBtn {
 
@@ -218,6 +226,34 @@ margin-top: 150px;
   make it round.  */
 }
 
+@keyframes blink {
+  0% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+.blinkerMargin {
+  margin: 10px;
+  /* background-color: #002bff; */
+  height: 40px;
+}
+
+ .blinkText {
+  /* background-color: #00ffd5; */
+  text-align: center;
+  animation: blink 1s infinite;
+  mix-blend-mode: multiply;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+ }
+
+
+ 
 /*! <!-- CODE GRAVEYARD --> 
 
 /* . for class */
