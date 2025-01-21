@@ -28,17 +28,12 @@ let createDiv = () => {
 };
 createDiv();
 
-let snakeBody = [];
-// console.log(snakeBody);
-
-const cell183El = document.querySelector('.cell-183');
-// creating the snake on the board
-const createSnake = document.createElement("div");
-// give the snake a (class="theSnake")
-createSnake.classList.add('theSnake');
-// put the snake inside the cell-183 div
-snakeBody.push(createSnake);
-cell183El.append(createSnake);
+let snakeBody = []; // Holds all the snake segments
+const cell183El = document.querySelector('.cell-183'); // Initial cell for the snake head
+const createSnake = document.createElement("div"); // Create the snake head
+createSnake.classList.add('theSnake'); // Add a class for styling
+snakeBody.push({ element: createSnake, position: 183 }); // Add the head to the snake body
+cell183El.append(createSnake); // Place the head on the board
 // console.log(snakeBody);
 
 let celNum = 183; // current snake position
@@ -137,6 +132,7 @@ document.addEventListener('keydown', (e) => {
         if (celNum === foodNum) {
             // console.log('num', num++)
             // console.log('Hadi')
+            // check if next line of code needed for testing.
             document.querySelector(`.cell-${foodNum}`);
             food.remove()
             foodNum = Math.floor(Math.random() * totalCells);
@@ -144,10 +140,21 @@ document.addEventListener('keydown', (e) => {
             newCell.append(food);
             score++;
             scoreNum.innerHTML = score;
-
+            
+            //addingSnakeSegments
             const createSnakeSegment = document.createElement("div");
             createSnakeSegment.classList.add('theSnake');
-            document.querySelector(`.cell-${celNum}`).append(createSnake);
+            
+            const lastSegment = snakeBody[snakeBody.length - 1];
+            let newSegmentPosition;
+            if (lastSegment) {
+            newSegmentPosition = lastSegment.position;
+            } else {
+            newSegmentPosition = celNum;
+            }
+
+            snakeBody.unshift({ element: createSnakeSegment, position: newSegmentPosition })
+            document.querySelector(`.cell-${celNum}`).append(createSnakeSegment);
             console.log(snakeBody);
         }
     }, 75); 
@@ -275,4 +282,17 @@ const food = document.createElement("div");
 //code to creating stuff from js to HTML - creating a div example
 // const div = document.createElement("div");
 //         div.classList.add('cell');
+
+//////////////////
+
+//addingSnakeSegments
+// 1. Creating a new snake segment
+// 2. Getting the last segment of the snake
+// 3. Determining the position for the new segment
+// 4. Adding the new segment to the snake body
+// 5. Placing the new segment on the grid
+
+/////////////
+
+
 
