@@ -28,7 +28,12 @@ let createDiv = () => {
 };
 createDiv();
 
+let celNum = 183; // current snake position
+let currentDirection; // snake current direction
+let movementInterval;
+let score = 0;
 let snakeBody = []; // Holds all the snake segments
+
 const cell183El = document.querySelector('.cell-183'); // Initial cell for the snake head
 const createSnake = document.createElement("div"); // Create the snake head
 createSnake.classList.add('theSnake'); // Add a class for styling
@@ -36,15 +41,10 @@ snakeBody.push({ element: createSnake, position: 183 }); // Add the head to the 
 cell183El.append(createSnake); // Place the head on the board
 // console.log(snakeBody);
 
-let celNum = 183; // current snake position
-let currentDirection; // snake current direction
-let movementInterval;
-let score = 0;
-
 const blinkingTestEl = document.querySelector('.blinkText');
 
 document.addEventListener('keydown', (e) => {
-// Check if the key pressed is the same as the current direction
+    // Check if the key pressed is the same as the current direction
     if (
         (e.key === "ArrowUp" && currentDirection === "up") ||
         (e.key === "ArrowDown" && currentDirection === "down") ||
@@ -62,13 +62,37 @@ document.addEventListener('keydown', (e) => {
     } else if (e.key === "ArrowLeft") {
         currentDirection = "left", blinkingTestEl.remove();
     } else if (e.key === "ArrowRight") {
-        currentDirection = "right", blinkingTestEl.remove(); 
+        currentDirection = "right", blinkingTestEl.remove();
     } 
-    // snake will move if a key is pressed
+    // will clear the old unknown movement interval to set it fresh.
     clearInterval(movementInterval);
     
-    // will clear the old unknown movement interval to set it fresh.
     movementInterval = setInterval(() => {
+        
+        // let snakeHead = snakeBody[0];
+        // let snakeTail = snakeBody[snakeBody.length - 1];
+
+        // Move each segment of the snake body
+        for (let i = snakeBody.length - 1; i > 0; i--) {
+            // Update each segment's position to the position of the segment in front of it
+            snakeBody[i].position = snakeBody[i - 1].position;
+        }
+
+        // Add the new head to the snake body
+        snakeBody[0].position = celNum;
+
+        // Move the head to its new cell/position
+        const newHeadCell = document.querySelector(`.cell-${celNum}`);
+        newHeadCell.append(snakeBody[0].element);
+
+        // Update each segment's position
+        for (let i = 1; i < snakeBody.length; i++) {
+            const segment = snakeBody[i];
+            const segmentCell = document.querySelector(`.cell-${segment.position}`);
+            segmentCell.append(segment.element);
+        }
+
+
         // const currentCell = document.querySelector(`.cell-${celNum}`);
         document.querySelector(`.cell-${celNum}`);
         // currentCell.removeChild(createSnake);
@@ -96,35 +120,35 @@ document.addEventListener('keydown', (e) => {
             return;
         }
     
-    // Check if the snake is outside the (right) grid boundaries (dead)
-    if (currentDirection === "right") {
-        if (celNum === 0 || celNum === 20 || celNum === 40 || celNum === 60 || celNum === 80 || celNum === 100 || celNum === 120 || celNum === 140 || celNum === 160 || celNum === 180 || celNum === 200 || celNum === 220 || celNum === 240 || celNum === 260 || celNum === 280 || celNum === 300 || celNum === 320 || celNum === 340 || celNum === 360) {
-            clearInterval(movementInterval);
-            alert("Game Over! You hit the wall!");
-            score = 0;
-            scoreNum.innerHTML = score;
-            celNum = Math.floor(Math.random() * totalCells);
-            return;
+        // Check if the snake is outside the (right) grid boundaries (dead)
+        if (currentDirection === "right") {
+            if (celNum === 0 || celNum === 20 || celNum === 40 || celNum === 60 || celNum === 80 || celNum === 100 || celNum === 120 || celNum === 140 || celNum === 160 || celNum === 180 || celNum === 200 || celNum === 220 || celNum === 240 || celNum === 260 || celNum === 280 || celNum === 300 || celNum === 320 || celNum === 340 || celNum === 360) {
+                clearInterval(movementInterval);
+                alert("Game Over! You hit the wall!");
+                score = 0;
+                scoreNum.innerHTML = score;
+                celNum = Math.floor(Math.random() * totalCells);
+                return;
+            }
         }
-    }
 
-    // Check if the snake is outside the (left) grid boundaries (dead)
-    if (currentDirection === "left") {
-        if (
-            celNum === 19 || celNum === 39 || celNum === 59 || celNum === 79 || 
-            celNum === 99 || celNum === 119 || celNum === 139 || celNum === 159 || 
-            celNum === 179 || celNum === 199 || celNum === 219 || celNum === 239 || 
-            celNum === 259 || celNum === 279 || celNum === 299 || celNum === 319 || 
-            celNum === 339 || celNum === 359 || celNum === 360
-        ) {
-            clearInterval(movementInterval);
-            alert("Game Over! You hit the wall!");
-            score = 0;
-            scoreNum.innerHTML = score;
-            celNum = Math.floor(Math.random() * totalCells);
-            return;
+        // Check if the snake is outside the (left) grid boundaries (dead)
+        if (currentDirection === "left") {
+            if (
+                celNum === 19 || celNum === 39 || celNum === 59 || celNum === 79 || 
+                celNum === 99 || celNum === 119 || celNum === 139 || celNum === 159 || 
+                celNum === 179 || celNum === 199 || celNum === 219 || celNum === 239 || 
+                celNum === 259 || celNum === 279 || celNum === 299 || celNum === 319 || 
+                celNum === 339 || celNum === 359 || celNum === 360
+            ) {
+                clearInterval(movementInterval);
+                alert("Game Over! You hit the wall!");
+                score = 0;
+                scoreNum.innerHTML = score;
+                celNum = Math.floor(Math.random() * totalCells);
+                return;
+            }
         }
-    }
         const newCell = document.querySelector(`.cell-${celNum}`);
         // newCell.appendChild(createSnake);
         newCell.append(createSnake);
@@ -140,17 +164,16 @@ document.addEventListener('keydown', (e) => {
             newCell.append(food);
             score++;
             scoreNum.innerHTML = score;
-            
+
             //addingSnakeSegments
             const createSnakeSegment = document.createElement("div");
             createSnakeSegment.classList.add('theSnake');
-            
             const lastSegment = snakeBody[snakeBody.length - 1];
             let newSegmentPosition;
             if (lastSegment) {
-            newSegmentPosition = lastSegment.position;
+                newSegmentPosition = lastSegment.position;
             } else {
-            newSegmentPosition = celNum;
+                newSegmentPosition = celNum;
             }
 
             snakeBody.unshift({ element: createSnakeSegment, position: newSegmentPosition })
@@ -165,15 +188,34 @@ let foodNum = 253;
 let scoreNum = document.querySelector('#score');
 
 const food = document.createElement("div");
-        food.classList.add('snakeFood');
-        // console.log(food);
-        cell253El.append(food);
+food.classList.add('snakeFood');
+// console.log(food);
+cell253El.append(food);
 
 
-// snake current cell -1
-  
- 
+
+
+
+
 // ! <!-- CODE GRAVEYARD --> 
+
+
+
+
+//-------------- Constants -------------
+
+
+//---------- Variables (state) ---------
+
+
+//----- Cached Element References  -----
+
+
+//-------------- Functions -------------
+
+
+//----------- Event Listeners ----------
+
 
 // console.log('Its working!');
 
@@ -181,8 +223,8 @@ const food = document.createElement("div");
 // console.log(playBtnEl);
 
 // playBtnEl.addEventListener('click', () => {
-// console.log('Button was clicked!')
-// location.href = "./game.html"
+//     console.log('Button was clicked!')
+//     location.href = "./game.html"
 // });
 
 ////////////////////////////////
@@ -294,5 +336,26 @@ const food = document.createElement("div");
 
 /////////////
 
+// let foodNum = Math.floor(Math.random() * totalCells);
 
+// if (snakeBody.some(segment => segment.position === foodNum)) {
+//     while (snakeBody.some(segment => segment.position === foodNum)) {
+//         foodNum = Math.floor(Math.random() * totalCells);
+//     }
+// } 
 
+////////////
+
+// Snake should be in an array. (Array store the snake segments positions.
+// If snake eats food.. add new snake segment to the tail.
+// When snake move. Update each segment position to follow the one in front of it.
+
+////////////
+
+// 1. Creating a new snake segment
+// 2. Getting the last segment of the snake
+// 3. Determining the position for the new segment
+// 4. Adding the new segment to the snake body
+// 5. Placing the new segment on the grid
+
+////////////
