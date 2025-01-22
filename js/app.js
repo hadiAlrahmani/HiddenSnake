@@ -15,8 +15,11 @@ textReturnToMainMenuEl.addEventListener('click', () => {
     location.href = "./index.html";
 });
 
+//! CREATING THE GRID:
+/////////////////////////////////////
 
 // salman helped me with that!
+//creating cells on the grid
 let createDiv = () => {
     for (i = 0; i < 360; i++) {
         const div = document.createElement("div");
@@ -28,11 +31,18 @@ let createDiv = () => {
 };
 createDiv();
 
-let celNum = 183; // current snake position
+let celNum = 183; // current snake's head position
 let currentDirection; // snake current direction
-let movementInterval;
-let score = 0;
+let movementInterval; // setting interval for a function then, using it to clear the function interval.
+let score = 0; // starting player score from 0.
 let snakeBody = []; // Holds all the snake segments
+let totalCells = 360 // total grid cells from 0 - 360 horizontally
+let foodNum = 253; // food starting position then Math.random
+let scoreNum = document.querySelector('#score');
+
+
+//! CREATING THE SNAKE HEAD:
+/////////////////////////////////////
 
 const cell183El = document.querySelector('.cell-183'); // Initial cell for the snake head
 const createSnake = document.createElement("div"); // Create the snake head
@@ -42,6 +52,21 @@ cell183El.append(createSnake); // Place the head on the board
 // console.log(snakeBody);
 
 const blinkingTestEl = document.querySelector('.blinkText');
+
+// SNAKES FOOD INITIAL POSITION
+const cell253El = document.querySelector('.cell-253');
+
+//! CREATING THE SNAKE FOOD:
+/////////////////////////////////////
+
+const food = document.createElement("div");
+food.classList.add('snakeFood');
+// console.log(food);
+cell253El.append(food);
+
+
+//! CREATING THE SNAKE HEAD MOVEMNT:
+/////////////////////////////////////
 
 document.addEventListener('keydown', (e) => {
     // Check if the key pressed is the same as the current direction
@@ -68,32 +93,7 @@ document.addEventListener('keydown', (e) => {
     clearInterval(movementInterval);
     
     movementInterval = setInterval(() => {
-        
-        // let snakeHead = snakeBody[0];
-        // let snakeTail = snakeBody[snakeBody.length - 1];
-
-        // Move each segment of the snake body
-        for (let i = snakeBody.length - 1; i > 0; i--) {
-            // Update each segment's position to the position of the segment in front of it
-            snakeBody[i].position = snakeBody[i - 1].position;
-        }
-
-        // Add the new head to the snake body
-        snakeBody[0].position = celNum;
-
-        // Move the head to its new cell/position
-        const newHeadCell = document.querySelector(`.cell-${celNum}`);
-        newHeadCell.append(snakeBody[0].element);
-
-        // Update each segment's position
-        for (let i = 1; i < snakeBody.length; i++) {
-            const segment = snakeBody[i];
-            const segmentCell = document.querySelector(`.cell-${segment.position}`);
-            segmentCell.append(segment.element);
-        }
-
-
-        // const currentCell = document.querySelector(`.cell-${celNum}`);
+       
         document.querySelector(`.cell-${celNum}`);
         // currentCell.removeChild(createSnake);
         createSnake.remove();
@@ -106,8 +106,9 @@ document.addEventListener('keydown', (e) => {
         } else if (currentDirection === "right") {
             celNum += 1;
         } 
-        
-        let totalCells = 360
+
+//! CREATING THE SNAKE HEAD BOUNDARIES:
+// /////////////////////////////////////
 
         // Check if the snake is outside the (top & bottom) grid boundaries (dead)
         if (celNum < 0 || celNum >= 360) {
@@ -149,9 +150,14 @@ document.addEventListener('keydown', (e) => {
                 return;
             }
         }
+        
+        //RESPAWNING THE SNAKE IF DIED
         const newCell = document.querySelector(`.cell-${celNum}`);
         // newCell.appendChild(createSnake);
         newCell.append(createSnake);
+
+//! SNAKE FOOD PROCEDURE & RANDOMIZER:
+// // /////////////////////////////////////
 
         if (celNum === foodNum) {
             // console.log('num', num++)
@@ -164,33 +170,24 @@ document.addEventListener('keydown', (e) => {
             newCell.append(food);
             score++;
             scoreNum.innerHTML = score;
+            // console.log('Food Eaten!')
 
-            //addingSnakeSegments
             const createSnakeSegment = document.createElement("div");
-            createSnakeSegment.classList.add('theSnake');
-            const lastSegment = snakeBody[snakeBody.length - 1];
-            let newSegmentPosition;
-            if (lastSegment) {
-                newSegmentPosition = lastSegment.position;
-            } else {
-                newSegmentPosition = celNum;
-            }
+             createSnakeSegment.classList.add('theSnakeSegment');
 
-            snakeBody.unshift({ element: createSnakeSegment, position: newSegmentPosition })
-            document.querySelector(`.cell-${celNum}`).append(createSnakeSegment);
-            console.log(snakeBody);
-        }
+             snakeBody.push({element: createSnakeSegment, position: celNum+1});
+             // console.log(snakeBody);
+             //  const cell199El = document.querySelector('.cell-199');
+             //  cell199El.append(createSnakeSegment);
+             const newSegmentPosition = document.querySelector(`.cell-${celNum}`);
+             newSegmentPosition.append(createSnakeSegment);
+             //new snake segment = current snake head position + 1
+             console.log(snakeBody);
+        } 
     }, 75); 
+    // Note: MovmentInterval Ends Here.
 });
-
-const cell253El = document.querySelector('.cell-253');
-let foodNum = 253;
-let scoreNum = document.querySelector('#score');
-
-const food = document.createElement("div");
-food.classList.add('snakeFood');
-// console.log(food);
-cell253El.append(food);
+// Note: Keydown EventListener Ends Here.
 
 
 
@@ -359,3 +356,51 @@ cell253El.append(food);
 // 5. Placing the new segment on the grid
 
 ////////////
+
+//////////
+
+ 
+        // let snakeHead = snakeBody[0];
+        // let snakeTail = snakeBody[snakeBody.length - 1];
+
+        // // Move each segment of the snake body
+        // for (let i = snakeBody.length - 1; i > 0; i--) {
+        //     // Update each segment's position to the position of the segment in front of it
+        //     snakeBody[i].position = snakeBody[i - 1].position;
+        // }
+
+        // // Add the new head to the snake body
+        // snakeBody[0].position = celNum;
+
+        // // Move the head to its new cell/position
+        // const newHeadCell = document.querySelector(`.cell-${celNum}`);
+        // newHeadCell.append(snakeBody[0].element);
+
+        // // Update each segment's position
+        // for (let i = 1; i < snakeBody.length; i++) {
+        //     const segment = snakeBody[i];
+        //     const segmentCell = document.querySelector(`.cell-${segment.position}`);
+        //     segmentCell.append(segment.element);
+        // }
+
+
+        // const currentCell = document.querySelector(`.cell-${celNum}`);
+
+        /////////
+
+  // //addingSnakeSegments
+            // const createSnakeSegment = document.createElement("div");
+            // createSnakeSegment.classList.add('theSnake');
+            // const lastSegment = snakeBody[snakeBody.length - 1];
+            // let newSegmentPosition;
+            // if (lastSegment) {
+            //     newSegmentPosition = lastSegment.position;
+            // } else {
+            //     newSegmentPosition = celNum;
+            // }
+
+            // snakeBody.unshift({ element: createSnakeSegment, position: newSegmentPosition })
+            // document.querySelector(`.cell-${celNum}`).append(createSnakeSegment);
+            // console.log(snakeBody);
+            ////////
+
