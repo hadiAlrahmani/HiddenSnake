@@ -12,13 +12,13 @@ body {
     overflow: hidden;
 }
 
-/* #main {
+#main {
   background-color: #00ffd5;
-  background-image: url('../Game-Background/stars.gif');
+  background-image: url('../Game-Background/spaceStars.gif');
   background-size: cover;
   background-position: center;
   height: 100vh;
-} */
+}
 
 .playBtn {
 

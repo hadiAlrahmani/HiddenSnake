@@ -54,6 +54,22 @@ function gameOver() {
 });  
 };
 
+// snake kill itself model + audio.
+const snakeOverEl = document.querySelector('#snakeGameOverModal');
+const snakeGOver = new bootstrap.Modal(snakeOverEl);
+const sPlayAgainBtn = document.querySelector('#sPlayAgainBtn');
+function snakeOver() {
+    let audio = new Audio("../Audio/snakeDeath.mp3");
+    audio.play();
+    snakeGOver.show();
+    sPlayAgainBtn.addEventListener('click', () => {
+        playAgnBtnSE();
+        setTimeout(() => {
+        location.href = "./index.html";
+        }, 1800);
+});
+};
+
 function snakeEatFoodSE() {
     let audio = new Audio("../Audio/snakeMunch.mp3");
     audio.play();
@@ -186,7 +202,7 @@ document.addEventListener('keydown', (e) => {
         for (let i = 1; i < snakeBody.length; i++) {
         if (snakeBody[0].position === snakeBody[i].position) {
         clearInterval(movementInterval);
-        alert("Game Over! You hit yourself!");
+        snakeOver()
         score = 0;
         scoreNum.innerHTML = score;
         celNum = Math.floor(Math.random() * totalCells);
