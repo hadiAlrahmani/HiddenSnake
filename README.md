@@ -1,6 +1,15 @@
 # HiddenSnake
 ![Logo](image.png)
 * By: Hadi Alrahmani
+
+#### Game Demonstration:
+![Demo1](Readme-Images/1.png)
+![Demo2](Readme-Images/2.png)
+![Demo3](Readme-Images/3.png)
+![Demo4](Readme-Images/4.png)
+![Demo5](Readme-Images/5.png)
+![Demo6](Readme-Images/6.png)
+
 > **HiddenSnake** is a classic game where the player controls a snake that grows longer each time it eats food, while avoiding collisions with the walls and itself. The goal is to collect as much food as possible without dying.
 
 [Deployment Link](https://hadialrahmani.github.io/HiddenSnake/index.html)
