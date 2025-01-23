@@ -13,6 +13,11 @@ function playAgnBtnSE() {
         audio.play();
 }
 
+function VictorySE() {
+    let audio = new Audio("../Audio/Victory.mp3");
+        audio.play();
+}
+
 logoReturnToMainMenuEl.addEventListener('click', () => {
     // console.log('Button was clicked!')
     playBGMusic();
@@ -53,12 +58,15 @@ function snakeEatFoodSE() {
     audio.play();
 }
 
-// playBtn.addEventListener('click', () => {
-//     // console.log('Button was clicked!')
-//     playBtnSE();
-//     setTimeout(() => {
-//     }, 450);
-// });
+const youWonModalEl = new bootstrap.Modal(document.getElementById('youWonModal'));
+const backToMenuBtn = document.querySelector('#backToMenu');
+
+backToMenuBtn.addEventListener('click', () => {
+    VictorySE();
+    setTimeout(() => {
+        location.href = "./index.html";
+        }, 3850);
+});
 
 //! CREATING THE GRID:
 /////////////////////////////////////
@@ -248,6 +256,11 @@ document.addEventListener('keydown', (e) => {
             const newCell = document.querySelector(`.cell-${foodNum}`);
             newCell.append(food);
             score++;
+                if (score === 50) {
+                    youWonModalEl.show();
+                    clearInterval(movementInterval);
+                    // snakeBody = 0;
+                }
             scoreNum.innerHTML = score;
             snakeEatFoodSE()
             // console.log('Food Eaten!')
