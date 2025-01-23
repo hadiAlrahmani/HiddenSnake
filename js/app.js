@@ -2,7 +2,6 @@ const logoReturnToMainMenuEl = document.querySelector('#navGameIcon');
 // console.log(logoReturnToMainMenuEl);
 const snakeBoard = document.querySelector('#game-board');
 
-//NavLogo to MainMenu Audio
 function playBGMusic() {
     let audio = new Audio("../Audio/Menu.mp3");
     audio.play();
@@ -25,6 +24,8 @@ logoReturnToMainMenuEl.addEventListener('click', () => {
     location.href = "./index.html";
     }, 450);
 });
+
+
 
 const textReturnToMainMenuEl = document.querySelector('#navGameText');
 // console.log(textReturnToMainMenuEl);

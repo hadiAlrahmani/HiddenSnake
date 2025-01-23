@@ -42,8 +42,8 @@ body {
     /* padding: 10px 20px; */
     left: 50%; 
     /* margin-top: -600px;  */
-    margin-left: -50px;
-    margin-top: auto;
+    margin-left: -30px;
+    margin-top: 20px;
   }
 .playBtn:before {
     content: "";
@@ -96,6 +96,55 @@ body {
     
   }
 
+@keyframes beat {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.5);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      opacity: 1;
+    }
+  }
+@keyframes beatFaster {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2); /* Smaller scale for faster beat */
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); /* Slight glow */
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      opacity: 1;
+    }
+  }
+  .beatButton {
+    animation: beat 0.7s infinite; /* Slightly slower for a more intense effect */
+    background-color: #ff0000; /* Bright red to match bass vibe */
+    color: white; /* Text color for contrast */
+    border: none; /* Remove default borders */
+    border-radius: 10px; /* Smooth edges */
+    padding: 10px 20px; /* Button padding */
+    font-size: 1.2rem; /* Increase font size */
+    cursor: pointer; /* Add pointer cursor for better UX */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+  }
+  .beatButton:hover {
+    color: #ff4d4d; /* Slightly lighter on hover */
+  }
+
   h2#howToPlay {
     color: #697565;
     text-align: center;
@@ -141,7 +190,7 @@ body {
     padding: 10px;
     /* margin: 350px 150px; */
     border-color: #697565;
-    max-width: 20%;
+    max-width: 27%;
     border-radius: 10px;
     border-style: dashed;
     border-width: 3px;
