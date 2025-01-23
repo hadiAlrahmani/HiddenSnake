@@ -279,3 +279,21 @@ border-style: dotted; */
 
 //////////////////////
 
+//Menu Logo Mute & Unmute Background Music.
+const menuLogoEl = document.querySelector('#logoImg');
+const menuMusic = document.querySelector('#menuLogoMusic');
+
+let isPlaying = false;
+
+menuLogoEl.addEventListener('click', () => {
+    if (isPlaying) {
+        menuMusic.pause();
+        isPlaying = false;
+    } else {
+        menuMusic.play();
+        isPlaying = true;
+    }
+});
+
+/////////////////////
+

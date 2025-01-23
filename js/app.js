@@ -2,9 +2,23 @@ const logoReturnToMainMenuEl = document.querySelector('#navGameIcon');
 // console.log(logoReturnToMainMenuEl);
 const snakeBoard = document.querySelector('#game-board');
 
+//NavLogo to MainMenu Audio
+function playBGMusic() {
+    let audio = new Audio("../Audio/Menu.mp3");
+    audio.play();
+}
+
+function playAgnBtnSE() {
+    let audio = new Audio("../Audio/PlayBtnSE.mp3");
+        audio.play();
+}
+
 logoReturnToMainMenuEl.addEventListener('click', () => {
     // console.log('Button was clicked!')
+    playBGMusic();
+    setTimeout(() => {
     location.href = "./index.html";
+    }, 450);
 });
 
 const textReturnToMainMenuEl = document.querySelector('#navGameText');
@@ -14,6 +28,37 @@ textReturnToMainMenuEl.addEventListener('click', () => {
     // console.log('Button was clicked!')
     location.href = "./index.html";
 });
+
+// Snakes Death Modal
+const gameOverModalEl = document.querySelector('#gameOverModal');
+const playAgainBtn = document.querySelector('#playAgainBtn');
+
+const gameOverModal = new bootstrap.Modal(gameOverModalEl);
+
+// showing modal function when snake dies + minecraft sound.
+function gameOver() {
+    let audio = new Audio("../Audio/snakeDeath.mp3");
+    audio.play();
+    gameOverModal.show();
+    playAgainBtn.addEventListener('click', () => {
+        playAgnBtnSE();
+        setTimeout(() => {
+        location.href = "./index.html";
+        }, 1800);
+});  
+};
+
+function snakeEatFoodSE() {
+    let audio = new Audio("../Audio/snakeMunch.mp3");
+    audio.play();
+}
+
+// playBtn.addEventListener('click', () => {
+//     // console.log('Button was clicked!')
+//     playBtnSE();
+//     setTimeout(() => {
+//     }, 450);
+// });
 
 //! CREATING THE GRID:
 /////////////////////////////////////
@@ -100,20 +145,22 @@ document.addEventListener('keydown', (e) => {
         if (currentDirection === "up") {
             celNum -= 20;
 
+            //! CREATING THE TOP BOUNDARIES:
             // Check if the snake hits the top boundary (dies)
             if (celNum < 0) {
             clearInterval(movementInterval);
-            alert("Game Over! You hit the wall!");
+            gameOver();
             score = 0;
             scoreNum.innerHTML = score;
     }
         } else if (currentDirection === "down") {
             celNum += 20;
 
+            //! CREATING THE BOTTOM BOUNDARIES:
             // Check if the snake hits the bottom boundary (dies)
             if (celNum >= 360) {
             clearInterval(movementInterval);
-            alert("Game Over! You hit the wall!");
+            gameOver();
             score = 0;
             scoreNum.innerHTML = score;
     }
@@ -125,7 +172,18 @@ document.addEventListener('keydown', (e) => {
         
         // Update the head position
         snakeBody[0].position = celNum;
-    
+
+        // Check if the snake collides with itself
+        for (let i = 1; i < snakeBody.length; i++) {
+        if (snakeBody[0].position === snakeBody[i].position) {
+        clearInterval(movementInterval);
+        alert("Game Over! You hit yourself!");
+        score = 0;
+        scoreNum.innerHTML = score;
+        celNum = Math.floor(Math.random() * totalCells);
+        }
+    }
+
         // Clear old snake position
         document.querySelectorAll('.theSnake, .theSnakeSegment').forEach(segment => segment.remove());
     
@@ -145,7 +203,7 @@ document.addEventListener('keydown', (e) => {
         if (currentDirection === "right") {
             if (celNum === 0 || celNum === 20 || celNum === 40 || celNum === 60 || celNum === 80 || celNum === 100 || celNum === 120 || celNum === 140 || celNum === 160 || celNum === 180 || celNum === 200 || celNum === 220 || celNum === 240 || celNum === 260 || celNum === 280 || celNum === 300 || celNum === 320 || celNum === 340 || celNum === 360) {
                 clearInterval(movementInterval);
-                alert("Game Over! You hit the wall!");
+                gameOver();
                 score = 0;
                 scoreNum.innerHTML = score;
                 celNum = Math.floor(Math.random() * totalCells);
@@ -163,7 +221,7 @@ document.addEventListener('keydown', (e) => {
                 celNum === 339 || celNum === 359 || celNum === 360
             ) {
                 clearInterval(movementInterval);
-                alert("Game Over! You hit the wall!");
+                gameOver();
                 score = 0;
                 scoreNum.innerHTML = score;
                 celNum = Math.floor(Math.random() * totalCells);
@@ -191,6 +249,7 @@ document.addEventListener('keydown', (e) => {
             newCell.append(food);
             score++;
             scoreNum.innerHTML = score;
+            snakeEatFoodSE()
             // console.log('Food Eaten!')
 
             // Add a new segment to the snakeBody.
