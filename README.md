@@ -1,5 +1,5 @@
 # HiddenSnake
-![Logo](image.png)
+![Logo](Game-Logos/image.png)
 * By: Hadi Alrahmani
 
 #### Game Demonstration:
