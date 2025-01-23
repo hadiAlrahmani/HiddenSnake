@@ -13,7 +13,7 @@ body {
 }
 
 #main {
-  background-color: #00ffd5;
+  /* background-color: #00ffd5; */
   background-image: url('../Game-Background/spaceStars.gif');
   background-size: cover;
   background-position: center;
@@ -291,6 +291,7 @@ margin-top: 150px;
     border-radius: 10px;
     padding: 8px;
     font-weight: bold;
+    color: #ddd;
 }
 
 #score {
